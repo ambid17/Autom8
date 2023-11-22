@@ -1,0 +1,16 @@
+[
+  {
+    "action": "pressed",
+    "button": "Button.right",
+    "x": 1146,
+    "y": 819,
+    "_time": 1700693362.6610682
+  },
+  {
+    "action": "released",
+    "button": "Button.right",
+    "x": 1146,
+    "y": 819,
+    "_time": 1700693365.4102974
+  }
+]
