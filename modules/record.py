@@ -9,23 +9,24 @@ record_all = False
 
 storage = []
 count = 0
+keyboard_listener = []
+mouse_listener = []
 
 def try_quit():
     if len(storage) > 1:
-        if storage[-1]['action'] == 'released' and storage[-1]['button'] == 'Button.esc':
+        if storage[-1]['action'] == 'released_key' and storage[-1]['key'] == 'Key.esc':
             file_path = f'recordedCommands/{name_of_recording}.txt'
             print(f'saving recording to {file_path}')
             with open(file_path, 'w') as outfile:
                 json.dump(storage, outfile)
-            return False
+            mouse_listener.stop()
+            keyboard_listener.stop()
 
 def on_press(key):
     try_quit()
     try:
         json_object = {'action':'pressed_key', 'key':key.char, '_time': time.time()}
     except AttributeError:
-        if key == keyboard.Key.esc:
-            return False
         json_object = {'action':'pressed_key', 'key':str(key), '_time': time.time()}
     storage.append(json_object)
 
@@ -66,20 +67,26 @@ def on_scroll(x, y, dx, dy):
     storage.append(json_object)
 
 
-def start_recording(file_name, record_all):
+def start_recording(file_name, record_every):
     print("Hold right click for more than 2 seconds (and then release) to end the recording for mouse and click 'esc' to end the recording for keyboard (both are needed to finish recording)")
+    global name_of_recording
     name_of_recording = file_name
-    record_all = record_all
-    # Collect events from keyboard until esc
-    # Collect events from mouse until scroll
+
+    global record_all
+    record_all = record_every
+
+    global keyboard_listener
     keyboard_listener = keyboard.Listener(
         on_press=on_press,
-        on_release=on_release)
+        on_release=on_release
+    )
 
+    global mouse_listener
     mouse_listener = mouse.Listener(
-            on_click=on_click,
-            on_scroll=on_scroll,
-            on_move=on_move)
+        on_click=on_click,
+        on_scroll=on_scroll,
+        on_move=on_move
+    )
 
     keyboard_listener.start()
     mouse_listener.start()
