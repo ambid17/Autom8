@@ -21,9 +21,14 @@ def try_quit():
                 json.dump(storage, outfile)
             mouse_listener.stop()
             keyboard_listener.stop()
+            return False
+    return True
 
 def on_press(key):
-    try_quit()
+    should_continue = try_quit()
+
+    if should_continue == False:
+        return False
     try:
         json_object = {'action':'pressed_key', 'key':key.char, '_time': time.time()}
     except AttributeError:

@@ -1,0 +1,87 @@
+[
+  {
+    "action": "released_key",
+    "key": "Key.enter",
+    "_time": 1700697004.5491786
+  },
+  {
+    "action": "pressed_key",
+    "key": "Key.cmd",
+    "_time": 1700697005.2201622
+  },
+  {
+    "action": "released_key",
+    "key": "Key.cmd",
+    "_time": 1700697005.3231864
+  },
+  {
+    "action": "pressed_key",
+    "key": "p",
+    "_time": 1700697005.662781
+  },
+  {
+    "action": "released_key",
+    "key": "p",
+    "_time": 1700697005.7417965
+  },
+  {
+    "action": "pressed_key",
+    "key": "a",
+    "_time": 1700697005.7457976
+  },
+  {
+    "action": "released_key",
+    "key": "a",
+    "_time": 1700697005.8801203
+  },
+  {
+    "action": "pressed_key",
+    "key": "i",
+    "_time": 1700697005.9061265
+  },
+  {
+    "action": "pressed_key",
+    "key": "n",
+    "_time": 1700697005.9711413
+  },
+  {
+    "action": "released_key",
+    "key": "i",
+    "_time": 1700697006.0481596
+  },
+  {
+    "action": "released_key",
+    "key": "n",
+    "_time": 1700697006.098172
+  },
+  {
+    "action": "pressed_key",
+    "key": "t",
+    "_time": 1700697006.1081736
+  },
+  {
+    "action": "released_key",
+    "key": "t",
+    "_time": 1700697006.2054684
+  },
+  {
+    "action": "pressed_key",
+    "key": "Key.enter",
+    "_time": 1700697006.8242135
+  },
+  {
+    "action": "released_key",
+    "key": "Key.enter",
+    "_time": 1700697006.9172354
+  },
+  {
+    "action": "pressed_key",
+    "key": "Key.esc",
+    "_time": 1700697007.8431292
+  },
+  {
+    "action": "released_key",
+    "key": "Key.esc",
+    "_time": 1700697007.9281394
+  }
+]

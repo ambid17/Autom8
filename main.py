@@ -18,11 +18,12 @@ commands = ["1. command = track : track mouse position",
             "3. command = record : record input",
             "4. command = play : play a recording"
             ]
-commandRequest = "what do ya wanna do?: \n"
 
+
+commandRequest = "Commands:\n"
 for command in commands:
     commandRequest += command + "\n"
-
+commandRequest += "what do ya wanna do?:  "
 command = input(commandRequest)
 
 if command == "1" or command == "track":
@@ -35,13 +36,19 @@ if command == "3" or command == "record":
 if command == "4" or command == "play":
     files = os.listdir("recordedCommands")
 
-    file_name_string = "choose a file to play (type index or full file name):\n"
+    file_name_string = "Recordings:\n"
 
     index = 0
     for file in files:
         file_name_string += f'{index}. {file}\n'
         index += 1
+
+    file_name_string += "choose a file to play (type index or full file name):   "
     file_name = input(file_name_string)
+
+    file_selected_index = int(file_name)
+
+    file_name = files[file_selected_index]
     playRecording.playRecording(file_name)
 
 
