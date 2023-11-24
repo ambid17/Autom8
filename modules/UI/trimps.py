@@ -32,6 +32,8 @@ class Trimps:
         self.upgrade_scroll_bar_coords: tuple[int,int] = (1051, 700)
         self.upgrade_scroll_bar_color: tuple[int,int,int] = (85,85,85)
 
+        self.bone_charges_coords: tuple[int,int] = (110, 55)
+
         self.stop_hotkey = "q"
 
 
