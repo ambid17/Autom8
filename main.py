@@ -10,9 +10,9 @@ import datetime
 
 from modules import unity
 from modules import utils
-from modules import record
+from modules.UI import record
 from modules import playRecording
-from modules import screenshot
+from modules.UI import screenshot
 
 
 
@@ -83,15 +83,7 @@ class Application:
         self.screenshot = screenshot.Screenshot(self)
 
         # record macro
-        self.record_label = tk.Label(self.buttonBar, text="File Name:")
-        self.record_label.grid(row = 1, column=0, pady = 2)
-
-        self.record_var = tk.StringVar()
-        self.record_entry = tk.Entry(self.buttonBar,textvariable=self.record_var)
-        self.record_entry.grid(row = 1, column=1, pady = 2)
-
-        self.record_button = tk.Button(self.buttonBar, width=15, height=5, command=self.record, background="red", text="record macro")
-        self.record_button.grid(row = 1, column=2, pady = 2)
+        self.record = record.Record(self)
 
         # snipping canvas
         self.master_screen = tk.Toplevel(self.master)
