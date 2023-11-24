@@ -39,6 +39,20 @@ class Trimps:
         if self.is_playing_trimps:
             self.application.root.after(10, self.play_trimps_loop)
 
+            self.keyboard_listener = keyboard.Listener(
+                on_press=self.on_press,
+            )
+            self.keyboard_listener.start()
+
+    def on_press(self, key):
+        if(key.char == "q"):
+            self.is_playing_trimps = False
+            self.keyboard_listener.stop()
+
+            button_text = "stop" if self.is_playing_trimps else "play" 
+            background = "red" if self.is_playing_trimps else "green"
+            self.application.trimps_button.config(text=button_text, background=background)
+
     def play_trimps_loop(self):
         warpstation_status = self.get_button_status(self.warpstation_coords, self.warpstation_color)
         if warpstation_status == True:
@@ -60,7 +74,8 @@ class Trimps:
             pyautogui.moveTo(self.nursery_coords[0], self.nursery_coords[1])
             pyautogui.click()
 
-        self.application.root.after(10, self.play_trimps_loop)
+        if self.is_playing_trimps == True:
+            self.application.root.after(10, self.play_trimps_loop)
 
 
     def get_button_status(self, pixel_coords: tuple[int,int], enabled_color: tuple[int,int,int]):
