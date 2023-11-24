@@ -11,7 +11,7 @@ import datetime
 from modules import unity
 from modules import utils
 from modules.UI import record
-from modules import playRecording
+from modules.UI import playRecording
 from modules.UI import screenshot
 
 
@@ -79,11 +79,9 @@ class Application:
         self.buttonBar = tk.Frame(self.menu_frame, bg="")
         self.buttonBar.pack()
 
-        # snip
         self.screenshot = screenshot.Screenshot(self)
-
-        # record macro
         self.record = record.Record(self)
+        self.play_recording = playRecording.PlayRecording(self)
 
         # snipping canvas
         self.master_screen = tk.Toplevel(self.master)
@@ -91,9 +89,6 @@ class Application:
         self.master_screen.attributes("-transparent", "maroon3")
         self.picture_frame = tk.Frame(self.master_screen, background="maroon3")
         self.picture_frame.pack(fill=tk.BOTH, expand=tk.YES)
-
-    def record(self):
-        record.start_recording(self.record_var.get(), False)
 
 if __name__ == '__main__':
     root = tk.Tk()
