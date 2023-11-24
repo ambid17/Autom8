@@ -17,7 +17,7 @@ from modules.UI import trimps
 
 # yoinked from: https://stackoverflow.com/questions/49901928/how-to-take-a-screenshot-with-python-using-a-click-and-drag-method-like-snipping
 class Application:
-    def __init__(self, master):
+    def __init__(self, master: tk.Tk):
         self.snip_surface = None
         self.master = master
         self.start_x = None
@@ -46,6 +46,7 @@ class Application:
         self.master_screen.attributes("-transparent", "maroon3")
         self.picture_frame = tk.Frame(self.master_screen, background="maroon3")
         self.picture_frame.pack(fill=tk.BOTH, expand=tk.YES)
+
 
 if __name__ == '__main__':
     root = tk.Tk()

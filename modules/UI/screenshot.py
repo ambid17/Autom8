@@ -31,43 +31,42 @@ class Screenshot:
         self.application.master_screen.attributes("-topmost", True)
 
     def on_button_release(self, event):
-        self.display_rectangle_position()
-
         start_x = 0
         start_y = 0
-        end_x = 0
-        end_y = 0
+        width = 0
+        height = 0
 
         if self.start_x <= self.current_x and self.start_y <= self.current_y:
             print("right down")
             start_x = self.start_x
             start_y = self.start_y
-            end_x = self.current_x - self.start_x
-            end_y = self.current_y - self.start_y
+            width = self.current_x - self.start_x
+            height = self.current_y - self.start_y
             
 
         elif self.start_x >= self.current_x and self.start_y <= self.current_y:
             print("left down")
             start_x = self.current_x
             start_y = self.start_y
-            end_x = self.start_x - self.current_x
-            end_y = self.current_y - self.start_y
+            width = self.start_x - self.current_x
+            height = self.current_y - self.start_y
 
         elif self.start_x <= self.current_x and self.start_y >= self.current_y:
             print("right up")
             start_x = self.start_x
             start_y = self.current_y
-            end_x = self.current_x - self.start_x
-            end_y = self.start_y - self.current_y
+            width = self.current_x - self.start_x
+            height = self.start_y - self.current_y
 
         elif self.start_x >= self.current_x and self.start_y >= self.current_y:
             print("left up")
             start_x = self.current_x
             start_y = self.current_y
-            end_x = self.start_x - self.current_x
-            end_y = self.start_y - self.current_y
+            width = self.start_x - self.current_x
+            height = self.start_y - self.current_y
 
-        utils.take_bounded_screenshot(start_x, start_y,  end_x, end_y, self.snip_var.get())
+        utils.take_bounded_screenshot(start_x+2, start_y+2,  width-4, height-4, self.snip_var.get())
+        self.display_rectangle_position(start_x, start_y,  width, height)
         self.exit_screenshot_mode()
         return event
 
@@ -87,8 +86,5 @@ class Screenshot:
         # expand rectangle as you drag the mouse
         self.application.snip_surface.coords(1, self.start_x, self.start_y, self.current_x, self.current_y)
 
-    def display_rectangle_position(self):
-        print(self.start_x)
-        print(self.start_y)
-        print(self.current_x)
-        print(self.current_y)
+    def display_rectangle_position(self, start_x, start_y,  end_x, end_y):
+        print(f'saving rect: ({start_x},{start_y},{end_x},{end_y})')
