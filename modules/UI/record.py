@@ -4,10 +4,11 @@ import time
 import json
 import sys
 import tkinter as tk
+from main import Application
 
 # yoinked pynput code from: https://github.com/george-jensen/record-and-play-pynput/blob/main/record.py
 class Record:
-    def __init__(self, application):
+    def __init__(self, application: Application):
         self.application = application
         self.application.record_label = tk.Label(self.application.buttonBar, text="File Name:")
         self.application.record_label.grid(row = 1, column=0, pady = 2)

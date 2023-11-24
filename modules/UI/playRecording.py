@@ -6,9 +6,10 @@ import sys
 import tkinter as tk
 import os
 from tkinter import ttk
+from main import Application
 
 class PlayRecording:
-    def __init__(self, application):
+    def __init__(self, application: Application):
         self.application = application
 
         self.application.play_label = tk.Label(self.application.buttonBar, text="File Name:")

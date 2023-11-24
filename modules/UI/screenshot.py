@@ -1,8 +1,10 @@
 import tkinter as tk
+from main import Application
 from modules import utils
 
+# yoinked from: https://stackoverflow.com/questions/49901928/how-to-take-a-screenshot-with-python-using-a-click-and-drag-method-like-snipping
 class Screenshot:
-    def __init__(self, application):
+    def __init__(self, application: Application):
         self.application = application
         self.application.snip_label = tk.Label(self.application.buttonBar, text="File Name:")
         self.application.snip_label.grid(row = 0, column=0, pady = 2)
@@ -15,15 +17,16 @@ class Screenshot:
         self.application.snip_Button.grid(row = 0, column = 2, pady = 2)
 
         # snipping canvas
-        self.application.master_screen = tk.Toplevel(self.application.master)
+        self.application.master_screen = tk.Toplevel(self.application.root)
         self.application.master_screen.withdraw()
         self.application.master_screen.attributes("-transparent", "maroon3")
+        
         self.application.picture_frame = tk.Frame(self.application.master_screen, background="maroon3")
         self.application.picture_frame.pack(fill=tk.BOTH, expand=tk.YES)
 
     def create_screen_canvas(self):
         self.application.master_screen.deiconify()
-        self.application.master.withdraw()
+        self.application.root.withdraw()
 
         self.application.snip_surface = tk.Canvas(self.application.picture_frame, cursor="cross", bg="grey11")
         self.application.snip_surface.pack(fill=tk.BOTH, expand=tk.YES)
@@ -80,7 +83,7 @@ class Screenshot:
     def exit_screenshot_mode(self):
         self.application.snip_surface.destroy()
         self.application.master_screen.withdraw()
-        self.application.master.deiconify()
+        self.application.root.deiconify()
 
     def on_button_press(self, event):
         # save mouse drag start position

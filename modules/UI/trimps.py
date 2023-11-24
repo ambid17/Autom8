@@ -29,7 +29,7 @@ class Trimps:
         self.application.trimps_button.config(text=button_text, background=background)
         
         if self.is_playing_trimps:
-            self.application.master.after(10, self.play_trimps_loop)
+            self.application.root.after(10, self.play_trimps_loop)
 
     def play_trimps_loop(self):
         warpstation_button_location = self.get_button_location(self.warpstation_screenshot, self.warpstation_screenshot)
