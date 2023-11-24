@@ -28,6 +28,12 @@ class Trimps:
         self.tribute_coords: tuple[int,int] = (719, 1002)
         self.nursery_coords: tuple[int,int] = (942, 1002)
 
+        # used to make sure the upgrade scroll bar is at the top
+        self.upgrade_scroll_bar_coords: tuple[int,int] = (1051, 700)
+        self.upgrade_scroll_bar_color: tuple[int,int,int] = (85,85,85)
+
+        self.stop_hotkey = "q"
+
 
     def try_play_trimps(self):
         # update play button
@@ -45,7 +51,7 @@ class Trimps:
             self.keyboard_listener.start()
 
     def on_press(self, key):
-        if(key.char == "q"):
+        if(key.char == self.stop_hotkey):
             self.is_playing_trimps = False
             self.keyboard_listener.stop()
 
@@ -54,6 +60,11 @@ class Trimps:
             self.application.trimps_button.config(text=button_text, background=background)
 
     def play_trimps_loop(self):
+        upgrade_scrolled_to_top = self.get_button_status(self.upgrade_scroll_bar_coords, self.upgrade_scroll_bar_color)
+        if upgrade_scrolled_to_top == False:
+            pyautogui.moveTo(self.upgrade_scroll_bar_coords)
+            pyautogui.click()
+
         warpstation_status = self.get_button_status(self.warpstation_coords, self.warpstation_color)
         if warpstation_status == True:
             pyautogui.moveTo(self.warpstation_coords[0], self.warpstation_coords[1])
