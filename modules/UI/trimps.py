@@ -19,7 +19,15 @@ class Trimps:
 
         self.is_playing_trimps = False
         self.upgrade_region = (15,695,1060,690)
-        self.warpstation_screenshot = "warpstation"
+
+        self.warpstation_coords: tuple[int,int] = (86, 1003)
+        self.warpstation_color: tuple[int,int,int] = (0,37,75)
+
+        self.can_upgrade_color: tuple[int,int,int] = (0,0,0)
+        self.gym_coords: tuple[int,int] = (483, 1002)
+        self.tribute_coords: tuple[int,int] = (719, 1002)
+        self.nursery_coords: tuple[int,int] = (942, 1002)
+
 
     def try_play_trimps(self):
         # update play button
@@ -32,12 +40,31 @@ class Trimps:
             self.application.root.after(10, self.play_trimps_loop)
 
     def play_trimps_loop(self):
-        warpstation_button_location = self.get_button_location(self.warpstation_screenshot, self.warpstation_screenshot)
-
-        if warpstation_button_location != None:
-            pyautogui.moveTo(warpstation_button_location.x, warpstation_button_location.y)
+        warpstation_status = self.get_button_status(self.warpstation_coords, self.warpstation_color)
+        if warpstation_status == True:
+            pyautogui.moveTo(self.warpstation_coords[0], self.warpstation_coords[1])
             pyautogui.click()
 
+        gym_status = self.get_button_status(self.gym_coords, self.can_upgrade_color)
+        if gym_status == True:
+            pyautogui.moveTo(self.gym_coords[0], self.gym_coords[1])
+            pyautogui.click()
+
+        tribute_status = self.get_button_status(self.tribute_coords, self.can_upgrade_color)
+        if tribute_status == True:
+            pyautogui.moveTo(self.tribute_coords[0], self.tribute_coords[1])
+            pyautogui.click()
+
+        nursery_status = self.get_button_status(self.nursery_coords, self.can_upgrade_color)
+        if nursery_status == True:
+            pyautogui.moveTo(self.nursery_coords[0], self.nursery_coords[1])
+            pyautogui.click()
+
+        self.application.root.after(10, self.play_trimps_loop)
+
+
+    def get_button_status(self, pixel_coords: tuple[int,int], enabled_color: tuple[int,int,int]):
+        return pyautogui.pixelMatchesColor(pixel_coords[0], pixel_coords[1], enabled_color)
 
     def get_button_location(self, button_screenshot_name, region: tuple[int,int,int,int] | None) -> pyautogui.Point | None:
         button_location = None
