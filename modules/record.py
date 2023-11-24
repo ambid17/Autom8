@@ -73,7 +73,7 @@ def on_scroll(x, y, dx, dy):
 
 
 def start_recording(file_name, record_every):
-    print("Hold right click for more than 2 seconds (and then release) to end the recording for mouse and click 'esc' to end the recording for keyboard (both are needed to finish recording)")
+    print("Hit 'escape' to finish recording")
     global name_of_recording
     name_of_recording = file_name
 

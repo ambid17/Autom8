@@ -59,6 +59,7 @@ from modules import screenshot
 #     screenshot.takeScreenshot()
 
 
+# yoinked from: https://stackoverflow.com/questions/49901928/how-to-take-a-screenshot-with-python-using-a-click-and-drag-method-like-snipping
 class Application:
     def __init__(self, master):
         self.snip_surface = None
@@ -67,9 +68,10 @@ class Application:
         self.start_y = None
         self.current_x = None
         self.current_y = None
+        self.is_tracking_mouse = False
 
-        root.geometry('400x50+200+200')  # set new geometry
-        root.title('Autom8')
+        self.master.geometry('600x800+200+200')  # set new geometry
+        self.master.title('Autom8')
 
         self.menu_frame = tk.Frame(master)
         self.menu_frame.pack(fill=tk.BOTH, expand=tk.YES, padx=1, pady=1)
@@ -77,75 +79,29 @@ class Application:
         self.buttonBar = tk.Frame(self.menu_frame, bg="")
         self.buttonBar.pack()
 
-        self.snipButton = tk.Button(self.buttonBar, width=15, height=5, command=self.create_screen_canvas, background="green", text="screenshot")
-        self.snipButton.pack()
+        # snip
+        self.screenshot = screenshot.Screenshot(self)
 
-        self.master_screen = tk.Toplevel(root)
+        # record macro
+        self.record_label = tk.Label(self.buttonBar, text="File Name:")
+        self.record_label.grid(row = 1, column=0, pady = 2)
+
+        self.record_var = tk.StringVar()
+        self.record_entry = tk.Entry(self.buttonBar,textvariable=self.record_var)
+        self.record_entry.grid(row = 1, column=1, pady = 2)
+
+        self.record_button = tk.Button(self.buttonBar, width=15, height=5, command=self.record, background="red", text="record macro")
+        self.record_button.grid(row = 1, column=2, pady = 2)
+
+        # snipping canvas
+        self.master_screen = tk.Toplevel(self.master)
         self.master_screen.withdraw()
         self.master_screen.attributes("-transparent", "maroon3")
         self.picture_frame = tk.Frame(self.master_screen, background="maroon3")
         self.picture_frame.pack(fill=tk.BOTH, expand=tk.YES)
 
-    def create_screen_canvas(self):
-        self.master_screen.deiconify()
-        root.withdraw()
-
-        self.snip_surface = tk.Canvas(self.picture_frame, cursor="cross", bg="grey11")
-        self.snip_surface.pack(fill=tk.BOTH, expand=tk.YES)
-
-        self.snip_surface.bind("<ButtonPress-1>", self.on_button_press)
-        self.snip_surface.bind("<B1-Motion>", self.on_snip_drag)
-        self.snip_surface.bind("<ButtonRelease-1>", self.on_button_release)
-
-        self.master_screen.attributes('-fullscreen', True)
-        self.master_screen.attributes('-alpha', .3)
-        self.master_screen.lift()
-        self.master_screen.attributes("-topmost", True)
-
-    def on_button_release(self, event):
-        self.display_rectangle_position()
-
-        if self.start_x <= self.current_x and self.start_y <= self.current_y:
-            print("right down")
-            utils.take_bounded_screenshot(self.start_x, self.start_y, self.current_x - self.start_x, self.current_y - self.start_y)
-
-        elif self.start_x >= self.current_x and self.start_y <= self.current_y:
-            print("left down")
-            utils.take_bounded_screenshot(self.current_x, self.start_y, self.start_x - self.current_x, self.current_y - self.start_y)
-
-        elif self.start_x <= self.current_x and self.start_y >= self.current_y:
-            print("right up")
-            utils.take_bounded_screenshot(self.start_x, self.current_y, self.current_x - self.start_x, self.start_y - self.current_y)
-
-        elif self.start_x >= self.current_x and self.start_y >= self.current_y:
-            print("left up")
-            utils.take_bounded_screenshot(self.current_x, self.current_y, self.start_x - self.current_x, self.start_y - self.current_y)
-
-        self.exit_screenshot_mode()
-        return event
-
-    def exit_screenshot_mode(self):
-        self.snip_surface.destroy()
-        self.master_screen.withdraw()
-        root.deiconify()
-
-    def on_button_press(self, event):
-        # save mouse drag start position
-        self.start_x = self.snip_surface.canvasx(event.x)
-        self.start_y = self.snip_surface.canvasy(event.y)
-        self.snip_surface.create_rectangle(0, 0, 1, 1, outline='red', width=3, fill="maroon3")
-
-    def on_snip_drag(self, event):
-        self.current_x, self.current_y = (event.x, event.y)
-        # expand rectangle as you drag the mouse
-        self.snip_surface.coords(1, self.start_x, self.start_y, self.current_x, self.current_y)
-
-    def display_rectangle_position(self):
-        print(self.start_x)
-        print(self.start_y)
-        print(self.current_x)
-        print(self.current_y)
-
+    def record(self):
+        record.start_recording(self.record_var.get(), False)
 
 if __name__ == '__main__':
     root = tk.Tk()
