@@ -20,25 +20,28 @@ class MouseTracker:
         self.mouse_listener = []
 
     def track_mouse(self):
-        self.toggle_button()
+        if self.is_tracking:
+            self.stop_waiting_for_click()
+
+        self.update_button()
         
         if self.is_tracking:
-            self.create_screen()
+            self.wait_for_click()
         else:
-            self.remove_screen()
+            self.stop_waiting_for_click()
 
-    def create_screen(self):
+    def wait_for_click(self):
         self.mouse_listener = mouse.Listener(
             on_click=self.on_click,
         )
 
         self.mouse_listener.start()
 
-    def remove_screen(self):
+    def stop_waiting_for_click(self):
         self.mouse_listener.stop()
         
     def on_click(self, x, y, button, pressed):
-        self.toggle_button()
+        self.update_button()
         pixel = pyautogui.pixel(x,y)
         text = f'{x},{y} / {pixel}'
         print(text)
@@ -46,7 +49,7 @@ class MouseTracker:
         self.mouse_listener.stop()
         return False
     
-    def toggle_button(self):
+    def update_button(self):
         self.is_tracking = not self.is_tracking
         button_text = "stop" if self.is_tracking else "track" 
         background = "red" if self.is_tracking else "green"
