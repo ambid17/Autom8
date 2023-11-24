@@ -28,6 +28,9 @@ class PlayRecording:
     
 
     def playRecording(self):
+        if self.play_var.get() == "":
+            return
+        
         file_path = "recordedCommands/" + self.play_var.get()
         with open(file_path) as json_file:
             data = json.load(json_file)

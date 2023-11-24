@@ -98,6 +98,8 @@ class Record:
 
 
     def start_recording(self):
+        if self.record_var.get() == "":
+            return
         print("Hit 'escape' to finish recording")
 
         self.keyboard_listener = keyboard.Listener(
