@@ -1,13 +1,5 @@
-import pyautogui
 import cv2 as cv
 import tkinter as tk
-
-from modules import unity
-from modules import utils
-from modules.UI import record
-from modules.UI import playRecording
-from modules.UI import screenshot
-from modules.UI import trimps
 
 
 # yoinked from: https://stackoverflow.com/questions/49901928/how-to-take-a-screenshot-with-python-using-a-click-and-drag-method-like-snipping
@@ -30,18 +22,20 @@ class Application:
         self.buttonBar = tk.Frame(self.menu_frame, bg="")
         self.buttonBar.pack()
 
+        from modules.UI import screenshot
         self.screenshot = screenshot.Screenshot(self)
+
+        from modules.UI import record
         self.record = record.Record(self)
+
+        from modules.UI import playRecording
         self.play_recording = playRecording.PlayRecording(self)
+
+        from modules.UI import trimps
         self.trimps = trimps.Trimps(self)
 
-        # snipping canvas
-        self.master_screen = tk.Toplevel(self.master)
-        self.master_screen.withdraw()
-        self.master_screen.attributes("-transparent", "maroon3")
-        self.picture_frame = tk.Frame(self.master_screen, background="maroon3")
-        self.picture_frame.pack(fill=tk.BOTH, expand=tk.YES)
-
+        from modules.UI import mouseTracker
+        self.mouse_tracker = mouseTracker.MouseTracker(self)
 
 if __name__ == '__main__':
     print(cv.__version__)

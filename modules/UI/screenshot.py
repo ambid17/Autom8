@@ -14,6 +14,13 @@ class Screenshot:
         self.application.snip_Button = tk.Button(self.application.buttonBar, width=15, height=5, command=self.create_screen_canvas, background="green", text="screenshot")
         self.application.snip_Button.grid(row = 0, column = 2, pady = 2)
 
+        # snipping canvas
+        self.application.master_screen = tk.Toplevel(self.application.master)
+        self.application.master_screen.withdraw()
+        self.application.master_screen.attributes("-transparent", "maroon3")
+        self.application.picture_frame = tk.Frame(self.application.master_screen, background="maroon3")
+        self.application.picture_frame.pack(fill=tk.BOTH, expand=tk.YES)
+
     def create_screen_canvas(self):
         self.application.master_screen.deiconify()
         self.application.master.withdraw()
