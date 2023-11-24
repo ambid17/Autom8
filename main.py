@@ -1,12 +1,6 @@
 import pyautogui
-import keyboard
-import time
-import numpy as np
-import random
-import os
+import cv2 as cv
 import tkinter as tk
-import datetime
-# 7import win32api, win32con
 
 from modules import unity
 from modules import utils
@@ -14,6 +8,7 @@ from modules.UI import record
 from modules.UI import playRecording
 from modules.UI import screenshot
 from modules.UI import trimps
+
 
 # yoinked from: https://stackoverflow.com/questions/49901928/how-to-take-a-screenshot-with-python-using-a-click-and-drag-method-like-snipping
 class Application:
@@ -49,7 +44,10 @@ class Application:
 
 
 if __name__ == '__main__':
+    print(cv.__version__)
     root = tk.Tk()
     app = Application(root)
     root.mainloop()
+
+    
 

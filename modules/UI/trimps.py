@@ -18,6 +18,8 @@ class Trimps:
         
 
         self.is_playing_trimps = False
+        self.upgrade_region = (15,695,1060,690)
+        self.warpstation_screenshot = "warpstation"
 
     def try_play_trimps(self):
         # update play button
@@ -30,12 +32,22 @@ class Trimps:
             self.application.master.after(10, self.play_trimps_loop)
 
     def play_trimps_loop(self):
-        warpstation_button_location = None
-        try:
-            # the region param is (left, top, width, height)
-            warpstation_button_location = pyautogui.locateCenterOnScreen('screenshots/test.png', region=(15,695,1060,690), confidence=0.1)
-        except:
-            print("warpstation not found")
+        warpstation_button_location = self.get_button_location(self.warpstation_screenshot, self.warpstation_screenshot)
 
         if warpstation_button_location != None:
-            print(warpstation_button_location)
+            pyautogui.moveTo(warpstation_button_location.x, warpstation_button_location.y)
+            pyautogui.click()
+
+
+    def get_button_location(self, button_screenshot_name, region: tuple[int,int,int,int] | None) -> pyautogui.Point | None:
+        button_location = None
+        try:
+            # the region param is (left, top, width, height)
+            button_location = pyautogui.locateCenterOnScreen(f'screenshots/{button_screenshot_name}.png', region=region, confidence=0.7)
+        except:
+            print(f"{button_screenshot_name} not found")
+        else:
+            print(f'found {button_screenshot_name} at {button_location}')
+            return button_location
+        
+        return None
