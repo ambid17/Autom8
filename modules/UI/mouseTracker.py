@@ -13,23 +13,14 @@ class MouseTracker:
         self.application.mouse_entry = tk.Entry(self.application.buttonBar, textvariable=self.mouse_entry_var)
         self.application.mouse_entry.grid(row = 4, column=1, pady = 2)
 
-        self.application.mouse_button = tk.Button(self.application.buttonBar, width=25, height=5, command=self.track_mouse, background="green", text="track")
+        self.application.mouse_button = tk.Button(self.application.buttonBar, width=15, height=5, command=self.track_mouse, background="green", text="track")
         self.application.mouse_button.grid(row = 4, column = 2, pady = 2)
 
-        self.application.master_screen = tk.Toplevel(self.application.root)
-        self.application.master_screen.withdraw()
-        self.application.master_screen.attributes("-transparent", "maroon3")
-
-        self.application.picture_frame = tk.Frame(self.application.master_screen, background="maroon3")
-        self.application.picture_frame.pack(fill=tk.BOTH, expand=tk.YES)
-
         self.is_tracking = False
+        self.mouse_listener = []
 
     def track_mouse(self):
-        self.is_tracking = not self.is_tracking
-        button_text = "stop" if self.is_tracking else "track" 
-        background = "red" if self.is_tracking else "green"
-        self.application.mouse_button.config(text=button_text, background=background)
+        self.toggle_button()
         
         if self.is_tracking:
             self.create_screen()
@@ -37,31 +28,26 @@ class MouseTracker:
             self.remove_screen()
 
     def create_screen(self):
-        # bring the master_screen back to the view
-        self.application.master_screen.deiconify()
-        # hide the root
-        #self.application.root.withdraw()
+        self.mouse_listener = mouse.Listener(
+            on_click=self.on_click,
+        )
 
-        self.application.track_surface = tk.Canvas(self.application.picture_frame, cursor="cross", bg="grey11")
-        self.application.track_surface.pack(fill=tk.BOTH, expand=tk.YES)
-
-        self.application.master_screen.attributes('-fullscreen', True)
-        self.application.master_screen.attributes('-alpha', 0.1)
-        self.application.master_screen.lift()
-        self.application.master_screen.attributes("-topmost", True)
-        self.mouse_move_fnc_id = self.application.master_screen.bind("<Motion>", self.on_mouse_move)
-
+        self.mouse_listener.start()
 
     def remove_screen(self):
-        self.application.track_surface.unbind("<Motion>", self.mouse_move_fnc_id)
-        self.application.track_surface.destroy()
-        self.application.master_screen.withdraw()
-        self.application.root.deiconify()
-
-    def on_mouse_move(self, e):
-        x= e.x
-        y= e.y
-
+        self.mouse_listener.stop()
+        
+    def on_click(self, x, y, button, pressed):
+        self.toggle_button()
         pixel = pyautogui.pixel(x,y)
         text = f'{x},{y} / {pixel}'
+        print(text)
         self.mouse_entry_var.set(text)
+        self.mouse_listener.stop()
+        return False
+    
+    def toggle_button(self):
+        self.is_tracking = not self.is_tracking
+        button_text = "stop" if self.is_tracking else "track" 
+        background = "red" if self.is_tracking else "green"
+        self.application.mouse_button.config(text=button_text, background=background)
